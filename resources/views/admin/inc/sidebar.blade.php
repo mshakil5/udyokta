@@ -42,39 +42,12 @@
 
   <ul class="menu-inner py-1">
     <!-- Dashboards -->
-    <li class="menu-item active open">
-      <a href="javascript:void(0);" class="menu-link menu-toggle">
+
+    <li class="menu-item active">
+      <a href="{{route('admin.dashboard')}}" class="menu-link">
         <i class="menu-icon tf-icons ti ti-smart-home"></i>
         <div data-i18n="Dashboards">Dashboards</div>
-        <div class="badge bg-primary rounded-pill ms-auto">5</div>
       </a>
-      <ul class="menu-sub">
-        <li class="menu-item active">
-          <a href="index.html" class="menu-link">
-            <div data-i18n="Analytics">Analytics</div>
-          </a>
-        </li>
-        <li class="menu-item">
-          <a href="dashboards-crm.html" class="menu-link">
-            <div data-i18n="CRM">CRM</div>
-          </a>
-        </li>
-        <li class="menu-item">
-          <a href="app-ecommerce-dashboard.html" class="menu-link">
-            <div data-i18n="eCommerce">eCommerce</div>
-          </a>
-        </li>
-        <li class="menu-item">
-          <a href="app-logistics-dashboard.html" class="menu-link">
-            <div data-i18n="Logistics">Logistics</div>
-          </a>
-        </li>
-        <li class="menu-item">
-          <a href="app-academy-dashboard.html" class="menu-link">
-            <div data-i18n="Academy">Academy</div>
-          </a>
-        </li>
-      </ul>
     </li>
 
     
@@ -85,22 +58,43 @@
       </a>
       <ul class="menu-sub">
         <li class="menu-item">
-          <a href="app-user-list.html" class="menu-link">
-            <div data-i18n="List">Admin</div>
+          <a href="{{route('alladmin')}}" class="menu-link">
+            <div data-i18n="Admin">Admin</div>
           </a>
         </li>
 
         
         <li class="menu-item">
           <a href="app-user-list.html" class="menu-link">
-            <div data-i18n="List">Agent</div>
+            <div data-i18n="Agent">Agent</div>
           </a>
         </li>
 
         
         <li class="menu-item">
           <a href="app-user-list.html" class="menu-link">
-            <div data-i18n="List">Users</div>
+            <div data-i18n="Users">Users</div>
+          </a>
+        </li>
+        
+      </ul>
+    </li>
+
+    <li class="menu-item">
+      <a href="javascript:void(0);" class="menu-link menu-toggle">
+        <i class="menu-icon tf-icons ti ti-file-dollar"></i>
+        <div data-i18n="Expense">Expense</div>
+        <div class="badge bg-danger rounded-pill ms-auto">4</div>
+      </a>
+      <ul class="menu-sub">
+        <li class="menu-item">
+          <a href="{{route('admin.expenseType')}}" class="menu-link">
+            <div data-i18n="Type">Type</div>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="app-invoice-preview.html" class="menu-link">
+            <div data-i18n="Expense">Expense</div>
           </a>
         </li>
         

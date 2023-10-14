@@ -9,6 +9,8 @@
   data-template="vertical-menu-template-no-customizer">
   <head>
     <meta charset="utf-8" />
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
@@ -43,9 +45,16 @@
     <link rel="stylesheet" href="{{ asset('assets/admin/vendor/libs/typeahead-js/typeahead.css')}}" />
     <link rel="stylesheet" href="{{ asset('assets/admin/vendor/libs/apex-charts/apex-charts.css')}}" />
     <link rel="stylesheet" href="{{ asset('assets/admin/vendor/libs/swiper/swiper.css')}}" />
-    <link rel="stylesheet" href="{{ asset('assets/admin/vendor/libs/datatables-bs5/datatables.bootstrap5.css')}}" />
+    {{-- <link rel="stylesheet" href="{{ asset('assets/admin/vendor/libs/datatables-bs5/datatables.bootstrap5.css')}}" />
     <link rel="stylesheet" href="{{ asset('assets/admin/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css')}}" />
     <link rel="stylesheet" href="{{ asset('assets/admin/vendor/libs/datatables-checkboxes-jquery/datatables.checkboxes.css')}}" />
+    <link rel="stylesheet" href="{{ asset('assets/admin/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css')}}" /> --}}
+
+    
+    <!-- DataTables -->
+    <link rel="stylesheet" href="{{ asset('assets/admin/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
+    <link rel="stylesheet" href="{{ asset('assets/admin/plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
+    <link rel="stylesheet" href="{{ asset('assets/admin/plugins/datatables-buttons/css/buttons.bootstrap4.min.css')}}">
 
     <!-- Page CSS -->
     <link rel="stylesheet" href="{{ asset('assets/admin/vendor/css/pages/cards-advance.css')}}" />
@@ -162,12 +171,33 @@
     <!-- Vendors JS -->
     <script src="{{ asset('assets/admin/vendor/libs/apex-charts/apexcharts.js')}}"></script>
     <script src="{{ asset('assets/admin/vendor/libs/swiper/swiper.js')}}"></script>
-    <script src="{{ asset('assets/admin/vendor/libs/datatables-bs5/datatables-bootstrap5.js')}}"></script>
+    {{-- <script src="{{ asset('assets/admin/vendor/libs/datatables-bs5/datatables-bootstrap5.js')}}"></script>
+    <script src="{{ asset('assets/admin/js/tables-datatables-basic.js')}}"></script> --}}
 
     <!-- Main JS -->
     <script src="{{ asset('assets/admin/js/main.js')}}"></script>
 
     <!-- Page JS -->
     <script src="{{ asset('assets/admin/js/dashboards-analytics.js')}}"></script>
+
+    
+    <!-- DataTables  & Plugins -->
+    <script src="{{ asset('assets/admin/plugins/datatables/jquery.dataTables.min.js')}}"></script>
+    <script src="{{ asset('assets/admin/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
+    <script src="{{ asset('assets/admin/plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
+    <script src="{{ asset('assets/admin/plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
+    <script src="{{ asset('assets/admin/plugins/datatables-buttons/js/dataTables.buttons.min.js')}}"></script>
+    <script src="{{ asset('assets/admin/plugins/datatables-buttons/js/buttons.bootstrap4.min.js')}}"></script>
+    <script src="{{ asset('assets/admin/plugins/jszip/jszip.min.js')}}"></script>
+    <script src="{{ asset('assets/admin/plugins/pdfmake/pdfmake.min.js')}}"></script>
+    <script src="{{ asset('assets/admin/plugins/pdfmake/vfs_fonts.js')}}"></script>
+    <script src="{{ asset('assets/admin/plugins/datatables-buttons/js/buttons.html5.min.js')}}"></script>
+    <script src="{{ asset('assets/admin/plugins/datatables-buttons/js/buttons.print.min.js')}}"></script>
+    <script src="{{ asset('assets/admin/plugins/datatables-buttons/js/buttons.colVis.min.js')}}"></script>
+
+
+    @yield('script')
+
+    
   </body>
 </html>
