@@ -196,6 +196,14 @@
     <script src="{{ asset('assets/admin/plugins/datatables-buttons/js/buttons.colVis.min.js')}}"></script>
 
 
+    <script>
+      function pagetop() {
+            window.scrollTo({
+                top: 50,
+                behavior: 'smooth',
+            });
+        }
+    </script>
     @yield('script')
 
     

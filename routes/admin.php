@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\ExpenseTypeController;
+use App\Http\Controllers\Admin\TransactionMethodController;
+use App\Http\Controllers\Admin\ExpenseController;
 
 
 /*------------------------------------------
@@ -33,5 +35,17 @@ Route::group(['prefix' =>'admin/', 'middleware' => ['auth', 'is_admin']], functi
     Route::get('/expense-type/{id}/edit', [ExpenseTypeController::class, 'edit']);
     Route::post('/expense-type-update', [ExpenseTypeController::class, 'update']);
     Route::get('/expense-type/{id}', [ExpenseTypeController::class, 'delete']);
+    
+    Route::get('/expense', [ExpenseController::class, 'index'])->name('admin.expense');
+    Route::post('/expense', [ExpenseController::class, 'store']);
+    Route::get('/expense/{id}/edit', [ExpenseController::class, 'edit']);
+    Route::post('/expense-update', [ExpenseController::class, 'update']);
+    Route::get('/expense/{id}', [ExpenseController::class, 'delete']);
+    
+    Route::get('/transaction-method', [TransactionMethodController::class, 'index'])->name('admin.transactionMethod');
+    Route::post('/transaction-method', [TransactionMethodController::class, 'store']);
+    Route::get('/transaction-method/{id}/edit', [TransactionMethodController::class, 'edit']);
+    Route::post('/transaction-method-update', [TransactionMethodController::class, 'update']);
+    Route::get('/transaction-method/{id}', [TransactionMethodController::class, 'delete']);
 });
   

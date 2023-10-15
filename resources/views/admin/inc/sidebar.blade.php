@@ -93,12 +93,19 @@
           </a>
         </li>
         <li class="menu-item">
-          <a href="app-invoice-preview.html" class="menu-link">
+          <a href="{{route('admin.expense')}}" class="menu-link">
             <div data-i18n="Expense">Expense</div>
           </a>
         </li>
         
       </ul>
+    </li>
+
+    <li class="menu-item">
+      <a href="{{route('admin.transactionMethod')}}" class="menu-link">
+        <i class="menu-icon tf-icons ti ti-layout-kanban"></i>
+        <div data-i18n="Transaction Method">Transaction Method</div>
+      </a>
     </li>
 
     <!-- Layouts -->
@@ -214,12 +221,7 @@
         <div data-i18n="Calendar">Calendar</div>
       </a>
     </li>
-    <li class="menu-item">
-      <a href="app-kanban.html" class="menu-link">
-        <i class="menu-icon tf-icons ti ti-layout-kanban"></i>
-        <div data-i18n="Kanban">Kanban</div>
-      </a>
-    </li>
+    
     <!-- e-commerce-app menu start -->
     <li class="menu-item">
       <a href="javascript:void(0);" class="menu-link menu-toggle">
