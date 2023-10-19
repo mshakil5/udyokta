@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\TransactionMethodController;
 use App\Http\Controllers\Admin\ExpenseController;
 use App\Http\Controllers\Admin\IncomeTypeController;
 use App\Http\Controllers\Admin\IncomeController;
+use App\Http\Controllers\Admin\ChartOfAccountController;
 
 
 /*------------------------------------------
@@ -64,6 +65,11 @@ Route::group(['prefix' =>'admin/', 'middleware' => ['auth', 'is_admin']], functi
     Route::get('/income/{id}', [IncomeController::class, 'delete']);
 
 
+    Route::get('/chart-of-account', [ChartOfAccountController::class, 'index'])->name('admin.coa');
+    Route::post('/chart-of-account', [ChartOfAccountController::class, 'store']);
+    Route::get('/chart-of-account/{id}/edit', [ChartOfAccountController::class, 'edit']);
+    Route::post('/chart-of-account-update', [ChartOfAccountController::class, 'update']);
+    Route::get('/chart-of-account/{id}', [ChartOfAccountController::class, 'delete']);
 
 });
   

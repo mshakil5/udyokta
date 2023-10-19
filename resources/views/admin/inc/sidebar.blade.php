@@ -121,6 +121,26 @@
     </li>
 
     <li class="menu-item">
+      <a href="javascript:void(0);" class="menu-link menu-toggle">
+        <i class="menu-icon tf-icons ti ti-file-dollar"></i>
+        <div data-i18n="Accounts">Accounts</div>
+      </a>
+      <ul class="menu-sub">
+        <li class="menu-item">
+          <a href="{{route('admin.coa')}}" class="menu-link">
+            <div data-i18n="Chart Of Account">Chart Of Account</div>
+          </a>
+        </li>
+        {{-- <li class="menu-item">
+          <a href="{{route('admin.income')}}" class="menu-link">
+            <div data-i18n="Income">Income</div>
+          </a>
+        </li> --}}
+        
+      </ul>
+    </li>
+
+    <li class="menu-item">
       <a href="{{route('admin.transactionMethod')}}" class="menu-link">
         <i class="menu-icon tf-icons ti ti-layout-kanban"></i>
         <div data-i18n="Transaction Method">Transaction Method</div>
