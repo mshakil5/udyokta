@@ -6,6 +6,8 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\ExpenseTypeController;
 use App\Http\Controllers\Admin\TransactionMethodController;
 use App\Http\Controllers\Admin\ExpenseController;
+use App\Http\Controllers\Admin\IncomeTypeController;
+use App\Http\Controllers\Admin\IncomeController;
 
 
 /*------------------------------------------
@@ -47,5 +49,21 @@ Route::group(['prefix' =>'admin/', 'middleware' => ['auth', 'is_admin']], functi
     Route::get('/transaction-method/{id}/edit', [TransactionMethodController::class, 'edit']);
     Route::post('/transaction-method-update', [TransactionMethodController::class, 'update']);
     Route::get('/transaction-method/{id}', [TransactionMethodController::class, 'delete']);
+
+    
+    Route::get('/income-type', [IncomeTypeController::class, 'index'])->name('admin.incomeType');
+    Route::post('/income-type', [IncomeTypeController::class, 'store']);
+    Route::get('/income-type/{id}/edit', [IncomeTypeController::class, 'edit']);
+    Route::post('/income-type-update', [IncomeTypeController::class, 'update']);
+    Route::get('/income-type/{id}', [IncomeTypeController::class, 'delete']);
+    
+    Route::get('/income', [IncomeController::class, 'index'])->name('admin.income');
+    Route::post('/income', [IncomeController::class, 'store']);
+    Route::get('/income/{id}/edit', [IncomeController::class, 'edit']);
+    Route::post('/income-update', [IncomeController::class, 'update']);
+    Route::get('/income/{id}', [IncomeController::class, 'delete']);
+
+
+
 });
   

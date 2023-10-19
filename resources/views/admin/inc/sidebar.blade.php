@@ -84,7 +84,6 @@
       <a href="javascript:void(0);" class="menu-link menu-toggle">
         <i class="menu-icon tf-icons ti ti-file-dollar"></i>
         <div data-i18n="Expense">Expense</div>
-        <div class="badge bg-danger rounded-pill ms-auto">4</div>
       </a>
       <ul class="menu-sub">
         <li class="menu-item">
@@ -95,6 +94,26 @@
         <li class="menu-item">
           <a href="{{route('admin.expense')}}" class="menu-link">
             <div data-i18n="Expense">Expense</div>
+          </a>
+        </li>
+        
+      </ul>
+    </li>
+
+    <li class="menu-item">
+      <a href="javascript:void(0);" class="menu-link menu-toggle">
+        <i class="menu-icon tf-icons ti ti-file-dollar"></i>
+        <div data-i18n="Income">Income</div>
+      </a>
+      <ul class="menu-sub">
+        <li class="menu-item">
+          <a href="{{route('admin.incomeType')}}" class="menu-link">
+            <div data-i18n="Type">Type</div>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="{{route('admin.income')}}" class="menu-link">
+            <div data-i18n="Income">Income</div>
           </a>
         </li>
         
