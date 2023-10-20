@@ -141,6 +141,27 @@
     </li>
 
     <li class="menu-item">
+      <a href="javascript:void(0);" class="menu-link menu-toggle">
+        <i class="menu-icon tf-icons ti ti-file-dollar"></i>
+        <div data-i18n="Vouchers">Vouchers</div>
+      </a>
+      <ul class="menu-sub">
+        <li class="menu-item">
+          <a href="{{route('admin.debitVoucher')}}" class="menu-link">
+            <div data-i18n="Debit Voucher">Debit Voucher</div>
+          </a>
+        </li>
+        
+        <li class="menu-item">
+          <a href="{{route('admin.creditVoucher')}}" class="menu-link">
+            <div data-i18n="Credit Voucher">Credit Voucher</div>
+          </a>
+        </li>
+
+      </ul>
+    </li>
+
+    <li class="menu-item">
       <a href="{{route('admin.transactionMethod')}}" class="menu-link">
         <i class="menu-icon tf-icons ti ti-layout-kanban"></i>
         <div data-i18n="Transaction Method">Transaction Method</div>

@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\ExpenseController;
 use App\Http\Controllers\Admin\IncomeTypeController;
 use App\Http\Controllers\Admin\IncomeController;
 use App\Http\Controllers\Admin\ChartOfAccountController;
+use App\Http\Controllers\Admin\VoucherController;
 
 
 /*------------------------------------------
@@ -70,6 +71,19 @@ Route::group(['prefix' =>'admin/', 'middleware' => ['auth', 'is_admin']], functi
     Route::get('/chart-of-account/{id}/edit', [ChartOfAccountController::class, 'edit']);
     Route::post('/chart-of-account-update', [ChartOfAccountController::class, 'update']);
     Route::get('/chart-of-account/{id}', [ChartOfAccountController::class, 'delete']);
+
+
+    Route::get('/debit-voucher', [VoucherController::class, 'debitVoucher'])->name('admin.debitVoucher');
+    Route::post('/debit-voucher', [VoucherController::class, 'debitVoucherstore']);
+    Route::get('/debit-voucher/{id}/edit', [VoucherController::class, 'debitVoucheredit']);
+    Route::post('/debit-voucher-update', [VoucherController::class, 'debitVoucherupdate']);
+    Route::get('/debit-voucher/{id}', [VoucherController::class, 'debitVoucherdelete']);
+
+    Route::get('/credit-voucher', [VoucherController::class, 'creditVoucher'])->name('admin.creditVoucher');
+    Route::post('/credit-voucher', [VoucherController::class, 'creditVoucherstore']);
+    Route::get('/credit-voucher/{id}/edit', [VoucherController::class, 'creditVoucheredit']);
+    Route::post('/credit-voucher-update', [VoucherController::class, 'creditVoucherupdate']);
+    Route::get('/credit-voucher/{id}', [VoucherController::class, 'creditVoucherdelete']);
 
 });
   
