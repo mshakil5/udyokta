@@ -18,54 +18,117 @@
         </div>
         <form class="card-body" id="createThisForm">
             @csrf
-          <div class="row g-3">
-            <div class="col-md-6">
-              <label class="form-label" for="expense_name">Expense name</label>
-              <input type="text" id="expense_name" class="form-control" name="expense_name" />
-              <input type="hidden" id="codeid" class="form-control" name="codeid" />
-            </div>
-            <div class="col-md-6">
-              <label class="form-label" for="expense_amount">Expense amount</label>
-              <div class="input-group input-group-merge">
-                <input type="number" step="any" id="expense_amount" name="expense_amount" class="form-control" />
+            <input type="hidden" id="codeid" class="form-control" name="codeid" />
+
+            <div class="row g-3">
+              <div class="col-md-4">
+                <label class="form-label" for="expense_date">Expense Date</label>
+                <input type="date" id="expense_date" class="form-control" name="expense_date" />
+              </div>
+              <div class="col-md-4">
+                <label class="form-label" for="expense_type_id">Expense Category</label>
+                <select name="expense_type_id" id="expense_type_id" class="form-control">
+                  <option value="">Select</option>
+                  @foreach ($types as $type)
+                  <option value="{{$type->id}}">{{$type->name}}</option>
+                  @endforeach
+                </select>
+              </div>
+              <div class="col-md-4">
+                <label class="form-label" for="transaction_method_id">Expense Method</label>
+                <div class="input-group input-group-merge">
+                  <select name="transaction_method_id" id="transaction_method_id" class="form-control">
+                  <option value="">Select</option>
+                  @foreach ($methods as $method)
+                  <option value="{{$method->id}}">{{$method->name}}</option>
+                  @endforeach
+                </select>
+                </div>
               </div>
             </div>
-          </div>
+
+
+
 
           <div class="row g-3">
             <div class="col-md-6">
-              <label class="form-label" for="expense_type_id">Expense Category</label>
-              <select name="expense_type_id" id="expense_type_id" class="form-control">
+              <label class="form-label" for="expense">Expense name</label>
+              <select name="expense" id="expense" class="form-control">
                 <option value="">Select</option>
-                @foreach ($types as $type)
-                <option value="{{$type->id}}">{{$type->name}}</option>
+                @foreach ($coa as $cao)
+                <option value="{{$cao->id}}">{{$cao->account_name}}</option>
                 @endforeach
               </select>
             </div>
             <div class="col-md-6">
-              <label class="form-label" for="transaction_method_id">Expense Method</label>
-              <div class="input-group input-group-merge"><select name="transaction_method_id" id="transaction_method_id" class="form-control">
-                <option value="">Select</option>
-                @foreach ($methods as $method)
-                <option value="{{$method->id}}">{{$method->name}}</option>
-                @endforeach
-              </select>
-              </div>
-            </div>
-          </div>
-
-          <div class="row g-3">
-            <div class="col-md-6">
-              <label class="form-label" for="expense_date">Expense Date</label>
-              <input type="date" id="expense_date" class="form-control" name="expense_date" />
-            </div>
-          </div>
-          <div class="row g-3">
-            <div class="col-md-12">
               <label class="form-label" for="expense_description">Expense Description</label>
               <input type="text" id="expense_description" class="form-control" name="expense_description" />
             </div>
           </div>
+
+          <div class="row g-3">
+            <div class="col-md-12">
+
+              <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th>Account Name</th>
+                    <th>Ledger Comment</th>
+                    <th>Ref</th>
+                    <th>Amount</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody id="inner">
+
+                  {{-- <tr>
+                    <td><input type="text" id="chart_of_account_id" name="chart_of_account_id[]" class="form-control" value=""></td>
+                    <td><input type="text" id="comment" name="comment[]" class="form-control"></td>
+                    <td><input type="text" id="ref" name="ref[]" class="form-control"></td>
+                    <td><input type="number" step="any" id="amount" name="amount[]" class="form-control"></td>
+                    <td><div style="color: white;  user-select:none;  padding: 2px;    background: red;    width: 25px;    display: flex;    align-items: center; margin-right:5px;   justify-content: center;    border-radius: 4px;   left: 4px;    top: 81px;" onclick="removeRow(event)" >X</div></td>
+                  </tr> --}}
+                  
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>Total</td>
+                    <td><input type="number" id="total_amount" name="total_amount" class="form-control" readonly></td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>Discount</td>
+                    <td><input type="number" id="discount" name="discount" class="form-control"></td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>Vat</td>
+                    <td><input type="number" id="vat" name="vat" class="form-control"></td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>Net Amount</td>
+                    <td><input type="number" id="net_amount" name="net_amount" class="form-control" readonly></td>
+                  </tr>
+                </tfoot>
+              </table>
+              
+
+
+            </div>
+          </div>
+
+          
+
           <div class="pt-4">
             <button type="button" id="addBtn" class="btn btn-primary me-sm-3 me-1">Submit</button>
             <button type="button" id="FormCloseBtn" class="btn btn-label-secondary">Cancel</button>
@@ -164,6 +227,12 @@
   </script>
 
 <script>
+
+      function removeRow(event) {
+          event.target.parentElement.parentElement.remove();
+          net_total();   
+      }
+
   $(document).ready(function () {
       $("#addThisFormContainer").hide();
       $("#newBtn").click(function(){
@@ -309,6 +378,83 @@
           $('#createThisForm')[0].reset();
           $("#addBtn").val('Create');
       }
+
+
+
+
+      var urlbr = "{{URL::to('/admin/getchartofaccount')}}";
+            $("#expense").change(function(){
+		            event.preventDefault();
+                    var accname = $(this).val();
+
+                    var chart_of_account_id = $("input[name='chart_of_account_id[]']")
+                             .map(function(){return $(this).val();}).get();
+
+                        chart_of_account_id.push(accname);
+                        seen = chart_of_account_id.filter((s => v => s.has(v) || !s.add(v))(new Set));
+
+                        if (Array.isArray(seen) && seen.length) {
+                            return;
+                        }
+                        
+                    $.ajax({
+                    url: urlbr,
+                    method: "POST",
+                    data: {accname:accname},
+
+                    success: function (d) {
+                      
+                        if (d.status == 303) {
+
+                        }else if(d.status == 300){
+                               
+                            var markup = '<tr><td><input type="text" id="accheadname" name="accheadname[]" class="form-control" value="'+d.accheadname+'"><input type="hidden" id="chart_of_account_id" name="chart_of_account_id[]" class="form-control" value="'+d.chart_of_account_id+'"></td><td><input type="text" id="comment" name="comment[]" class="form-control"></td><td><input type="text" id="ref" name="ref[]" class="form-control"></td><td><input type="number" step="any" id="amount" name="amount[]" class="form-control total"></td><td><div style="color: white;  user-select:none;  padding: 2px;    background: red;    width: 25px;    display: flex;    align-items: center; margin-right:5px;   justify-content: center;    border-radius: 4px;   left: 4px;    top: 81px;" onclick="removeRow(event)" >X</div></td></tr>';
+
+                            $("table #inner ").append(markup);
+                            net_total();
+                        }
+                    },
+                    error: function (d) {
+                        console.log(d);
+                    }
+                });
+
+            });
+
+            // change quantity start  
+        $("body").delegate(".total,#discount,#vat","keyup",function(event){
+            event.preventDefault();
+            var row = $(this).parent().parent();
+            var amount = row.find('.total').val();
+            var total_amount=0;
+            $('.total').each(function(){
+              total_amount += ($(this).val()-0);
+            })
+            
+            var discount = $("#discount").val();
+            var vat = parseInt($("#vat").val());
+            console.log(vat);
+            var netamount = total_amount + vat - discount;
+            $('#total_amount').val(total_amount.toFixed(0));
+            $('#net_amount').val(netamount.toFixed(0)); 
+            net_total();          
+        });
+        //Change Quantity end here  
+
+
+        function net_total(){
+              var discount = $("#discount").val();
+              var vat = parseInt($("#vat").val());
+              var total_amount=0;
+              $('.total').each(function(){
+                total_amount += ($(this).val()-0);
+              })
+
+              var netamount = total_amount + vat - discount;
+              $('#total_amount').val(total_amount.toFixed(0));
+              $('#net_amount').val(netamount.toFixed(0));
+          }
+
       
   });
 

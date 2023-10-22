@@ -9,6 +9,21 @@ use Illuminate\support\Facades\Auth;
 
 class ChartOfAccountController extends Controller
 {
+    public function getaccounthead(Request $request)
+        {
+
+            $accdtl = ChartOfAccount::where('id', '=', $request->accname)->first();
+
+
+            if(empty($accdtl)){
+                return response()->json(['status'=> 303,'message'=>"No data found"]);
+            }else{
+                    return response()->json(['status'=> 300,'accheadname'=>$accdtl->account_name,'chart_of_account_id'=>$accdtl->id]);
+            }
+        }
+
+
+
     public function index()
     {
         $data = ChartOfAccount::orderby('id','DESC')->get();
