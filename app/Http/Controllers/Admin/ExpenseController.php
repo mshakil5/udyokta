@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\TransactionMethod;
+use App\Models\ChartOfAccount;
 use App\Models\ExpenseType;
 use App\Models\Expense;
 use Illuminate\support\Facades\Auth;
@@ -16,7 +17,8 @@ class ExpenseController extends Controller
         $data = Expense::orderby('id','DESC')->get();
         $types = ExpenseType::orderby('id','DESC')->get();
         $methods = TransactionMethod::orderby('id','DESC')->get();
-        return view('admin.expense.index', compact('data','methods','types'));
+        $coa = ChartOfAccount::orderby('id','DESC')->get();
+        return view('admin.expense.index', compact('data','methods','types','coa'));
     }
 
     public function store(Request $request)
