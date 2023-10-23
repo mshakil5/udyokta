@@ -1,0 +1,56 @@
+<?php
+
+namespace App\Http\Controllers\Admin;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use App\Models\Voucher;
+use App\Models\TransactionMethod;
+use App\Models\ChartOfAccount;
+use App\Models\Invoice;
+use App\Models\InvoiceDetail;
+use Illuminate\support\Facades\Auth;
+
+class InvoiceController extends Controller
+{
+    public function store(Request $request){
+        
+        
+        // new code
+        $order = new Invoice();
+        $order->date = $request->expense_date;
+        $order->description = $request->expense_description;
+        $order->transaction_method_id = $request->transaction_method_id;
+        $order->expense_type_id = $request->expense_type_id;
+        $order->net_amount = $request->net_amount;
+        $order->total_amount = $request->total_amount;
+        $order->discount = $request->discount;
+        $order->vat = $request->vat;
+        $order->voucher_type = $request->voucher_type;
+        $order->invoice_type = $request->invoice_type;
+        $order->created_by = Auth::user()->id;
+        if($order->save()){
+            foreach($request->input('chart_of_account_id') as $key => $value)
+            {
+                $orderDtl = new InvoiceDetail();
+                $orderDtl->invoice_id = $order->id;
+                $orderDtl->chart_of_account_id = $request->get('chart_of_account_id')[$key];
+                $orderDtl->comment = $request->get('comment')[$key];
+                $orderDtl->ref = $request->get('ref')[$key];
+                $orderDtl->amount = $request->get('amount')[$key];
+                $orderDtl->created_by = Auth::user()->id;
+                $orderDtl->save();
+            }
+            
+            $message ="<div class='alert alert-success'><a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a><b>Invoice create successfully.</b></div>";
+            return response()->json(['status'=> 300,'message'=>$message]);
+        }
+
+    }
+
+    public function showInvoice($id)
+    {
+        $data = Invoice::with('invoicedetail')->where('id', $id)->first();
+        return view('admin.invoice.index', compact('data'));
+    }
+}

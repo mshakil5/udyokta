@@ -80,14 +80,6 @@
                   </tr>
                 </thead>
                 <tbody id="inner">
-
-                  {{-- <tr>
-                    <td><input type="text" id="chart_of_account_id" name="chart_of_account_id[]" class="form-control" value=""></td>
-                    <td><input type="text" id="comment" name="comment[]" class="form-control"></td>
-                    <td><input type="text" id="ref" name="ref[]" class="form-control"></td>
-                    <td><input type="number" step="any" id="amount" name="amount[]" class="form-control"></td>
-                    <td><div style="color: white;  user-select:none;  padding: 2px;    background: red;    width: 25px;    display: flex;    align-items: center; margin-right:5px;   justify-content: center;    border-radius: 4px;   left: 4px;    top: 81px;" onclick="removeRow(event)" >X</div></td>
-                  </tr> --}}
                   
                 </tbody>
                 <tfoot>
@@ -151,9 +143,10 @@
                     <tr>
                         <th>Sl</th>
                         <th>Date</th>
-                        <th>Name</th>
+                        <th>Description</th>
                         <th>Amount</th>
                         <th>Bank Name</th>
+                        <th>Invoice</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -161,10 +154,13 @@
                   @foreach ($data as $key => $data)
                     <tr>
                       <td style="text-align: center">{{ $key + 1 }}</td>
-                      <td style="text-align: center">{{$data->expense_date}}</td>
-                      <td style="text-align: center">{{$data->expense_name}}</td>
-                      <td style="text-align: center">{{$data->expense_amount}}</td>
+                      <td style="text-align: center">{{$data->date}}</td>
+                      <td style="text-align: center">{{$data->description}}</td>
+                      <td style="text-align: center">{{$data->net_amount}}</td>
                       <td style="text-align: center">{{\App\Models\TransactionMethod::where('id', $data->transaction_method_id)->first()->name }}</td>
+                      <td style="text-align: center">
+                      <a href="{{route('invoice.show', $data->id)}}" class="btn btn-primary me-sm-3 me-1">Invoice</a>
+                      </td>
                       
                       <td style="text-align: center">
                         <a id="EditBtn" rid="{{$data->id}}"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -251,39 +247,58 @@
       //header for csrf-token is must in laravel
       $.ajaxSetup({ headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') } });
       //
-      var url = "{{URL::to('/admin/expense')}}";
+      var url = "{{URL::to('/admin/invoice')}}";
       var upurl = "{{URL::to('/admin/expense-update')}}";
       // console.log(url);
       $("#addBtn").click(function(){
       //   alert("#addBtn");
           if($(this).val() == 'Create') {
 
-              var form_data = new FormData();
-              form_data.append("expense_name", $("#expense_name").val());
-              form_data.append("expense_amount", $("#expense_amount").val());
-              form_data.append("expense_type_id", $("#expense_type_id").val());
-              form_data.append("transaction_method_id", $("#transaction_method_id").val());
-              form_data.append("expense_date", $("#expense_date").val());
-              form_data.append("expense_description", $("#expense_description").val());
-              $.ajax({
-                url: url,
-                method: "POST",
-                contentType: false,
-                processData: false,
-                data:form_data,
-                success: function (d) {
-                    if (d.status == 303) {
-                        $(".ermsg").html(d.message);
-                    }else if(d.status == 300){
-                          $(".ermsg").html(d.message);
-                          pagetop();
-                          window.setTimeout(function(){location.reload()},2000)
+              var total_amount = $("#total_amount").val();
+              var discount = $("#discount").val();
+              var vat = $("#vat").val();
+              var net_amount = $("#net_amount").val();
+              var expense_type_id = $("#expense_type_id").val();
+              var transaction_method_id = $("#transaction_method_id").val();
+              var expense_date = $("#expense_date").val();
+              var expense_description = $("#expense_description").val();
+              var invoice_type = "Expense";
+              var voucher_type = "Expense";
+              
+              var chart_of_account_id = $("input[name='chart_of_account_id[]']")
+                .map(function(){return $(this).val();}).get();
+
+              var comment = $("input[name='comment[]']")
+                .map(function(){return $(this).val();}).get();
+
+              var ref = $("input[name='ref[]']")
+                .map(function(){return $(this).val();}).get();
+
+              var amount = $("input[name='amount[]']")
+                .map(function(){return $(this).val();}).get();
+
+
+                $.ajax({
+                    url: url,
+                    method: "POST",
+                    data: {total_amount,discount,vat,net_amount,expense_type_id,transaction_method_id,expense_date,expense_description,chart_of_account_id,comment,ref,amount,invoice_type,voucher_type},
+
+                    success: function (d) {
+                        if (d.status == 303) {
+                            console.log(d);
+                            $(".ermsg").html(d.message);
+                            pagetop();
+                        }else if(d.status == 300){
+                            console.log(d);
+                            $(".ermsg").html(d.message);
+                            pagetop();
+                            window.setTimeout(function(){location.reload()},2000)
+                        }
+                    },
+                    error: function (d) {
+                        console.log(d);
                     }
-                },
-                error: function (d) {
-                    console.log(d);
-                }
-            });
+                });
           }
           //create  end
           //Update
@@ -338,42 +353,30 @@
       
       //Delete
       $("#contentContainer").on('click','#deleteBtn', function(){
-                if(!confirm('Sure?')) return;
-                codeid = $(this).attr('rid');
-                info_url = url + '/'+codeid;
-                $.ajax({
-                    url:info_url,
-                    method: "GET",
-                    type: "DELETE",
-                    data:{
-                    },
-                    success: function(d){
-                        if(d.success) {
-                            alert(d.message);
-                            location.reload();
-                        }
-                    },
-                    error:function(d){
-                        console.log(d);
+            if(!confirm('Sure?')) return;
+            codeid = $(this).attr('rid');
+            info_url = url + '/'+codeid;
+            $.ajax({
+                url:info_url,
+                method: "GET",
+                type: "DELETE",
+                data:{
+                },
+                success: function(d){
+                    if(d.success) {
+                        alert(d.message);
+                        location.reload();
                     }
-                });
+                },
+                error:function(d){
+                    console.log(d);
+                }
             });
-            //Delete
+        });
+        //Delete
 
 
-      function populateForm(data){
-          $("#expense_name").val(data.expense_name);
-          $("#expense_amount").val(data.expense_amount);
-          $("#expense_type_id").val(data.expense_type_id);
-          $("#transaction_method_id").val(data.transaction_method_id);
-          $("#expense_date").val(data.expense_date);
-          $("#expense_description").val(data.expense_description);
-          $("#codeid").val(data.id);
-          $("#addBtn").val('Update');
-          $("#addThisFormContainer").show(300);
-          $("#newBtn").hide(100);
-          $("#newBtnSection").hide(100);
-      }
+      
       function clearform(){
           $('#createThisForm')[0].reset();
           $("#addBtn").val('Create');

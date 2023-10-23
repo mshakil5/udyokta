@@ -8,13 +8,14 @@ use App\Models\TransactionMethod;
 use App\Models\ChartOfAccount;
 use App\Models\ExpenseType;
 use App\Models\Expense;
+use App\Models\Invoice;
 use Illuminate\support\Facades\Auth;
 
 class ExpenseController extends Controller
 {
     public function index()
     {
-        $data = Expense::orderby('id','DESC')->get();
+        $data = Invoice::whereNotNull('expense_type_id')->orderby('id','DESC')->get();
         $types = ExpenseType::orderby('id','DESC')->get();
         $methods = TransactionMethod::orderby('id','DESC')->get();
         $coa = ChartOfAccount::orderby('id','DESC')->get();

@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\IncomeTypeController;
 use App\Http\Controllers\Admin\IncomeController;
 use App\Http\Controllers\Admin\ChartOfAccountController;
 use App\Http\Controllers\Admin\VoucherController;
+use App\Http\Controllers\Admin\InvoiceController;
 
 
 /*------------------------------------------
@@ -85,6 +86,12 @@ Route::group(['prefix' =>'admin/', 'middleware' => ['auth', 'is_admin']], functi
     Route::get('/credit-voucher/{id}/edit', [VoucherController::class, 'creditVoucheredit']);
     Route::post('/credit-voucher-update', [VoucherController::class, 'creditVoucherupdate']);
     Route::get('/credit-voucher/{id}', [VoucherController::class, 'creditVoucherdelete']);
+
+
+    // invoice store
+    Route::post('/invoice', [InvoiceController::class, 'store']);
+    Route::get('/invoice/{id}', [InvoiceController::class, 'delete']);
+    Route::get('/invoice-view/{id}', [InvoiceController::class, 'showInvoice'])->name('invoice.show');
 
 });
   
