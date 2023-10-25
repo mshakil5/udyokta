@@ -43,7 +43,7 @@
   <ul class="menu-inner py-1">
     <!-- Dashboards -->
 
-    <li class="menu-item active">
+    <li class="menu-item {{ (request()->is('admin/dashboard*')) ? 'active' : '' }}">
       <a href="{{route('admin.dashboard')}}" class="menu-link">
         <i class="menu-icon tf-icons ti ti-smart-home"></i>
         <div data-i18n="Dashboards">Dashboards</div>
@@ -80,18 +80,18 @@
       </ul>
     </li>
 
-    <li class="menu-item">
+    <li class="menu-item {{ (request()->is('admin/expense*')) ? 'active open' : '' }}">
       <a href="javascript:void(0);" class="menu-link menu-toggle">
         <i class="menu-icon tf-icons ti ti-file-dollar"></i>
         <div data-i18n="Expense">Expense</div>
       </a>
       <ul class="menu-sub">
-        <li class="menu-item">
+        <li class="menu-item {{ (request()->is('admin/expense-type')) ? 'active' : '' }}">
           <a href="{{route('admin.expenseType')}}" class="menu-link">
             <div data-i18n="Type">Type</div>
           </a>
         </li>
-        <li class="menu-item">
+        <li class="menu-item {{ (request()->is('admin/expense')) ? 'active' : '' }}">
           <a href="{{route('admin.expense')}}" class="menu-link">
             <div data-i18n="Expense">Expense</div>
           </a>
@@ -100,18 +100,18 @@
       </ul>
     </li>
 
-    <li class="menu-item">
+    <li class="menu-item {{ (request()->is('admin/income*')) ? 'active open' : '' }}">
       <a href="javascript:void(0);" class="menu-link menu-toggle">
         <i class="menu-icon tf-icons ti ti-file-dollar"></i>
         <div data-i18n="Income">Income</div>
       </a>
       <ul class="menu-sub">
-        <li class="menu-item">
+        <li class="menu-item {{ (request()->is('admin/income-type')) ? 'active' : '' }}">
           <a href="{{route('admin.incomeType')}}" class="menu-link">
             <div data-i18n="Type">Type</div>
           </a>
         </li>
-        <li class="menu-item">
+        <li class="menu-item {{ (request()->is('admin/income')) ? 'active' : '' }}">
           <a href="{{route('admin.income')}}" class="menu-link">
             <div data-i18n="Income">Income</div>
           </a>

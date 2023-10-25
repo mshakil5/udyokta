@@ -18,7 +18,7 @@ class ExpenseController extends Controller
         $data = Invoice::whereNotNull('expense_type_id')->orderby('id','DESC')->get();
         $types = ExpenseType::orderby('id','DESC')->get();
         $methods = TransactionMethod::orderby('id','DESC')->get();
-        $coa = ChartOfAccount::orderby('id','DESC')->get();
+        $coa = ChartOfAccount::where('account_head','Expenses')->orderby('id','DESC')->get();
         return view('admin.expense.index', compact('data','methods','types','coa'));
     }
 

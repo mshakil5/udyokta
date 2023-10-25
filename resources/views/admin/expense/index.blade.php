@@ -22,12 +22,12 @@
 
             <div class="row g-3">
               <div class="col-md-4">
-                <label class="form-label" for="expense_date">Expense Date</label>
-                <input type="date" id="expense_date" class="form-control" name="expense_date" />
+                <label class="form-label" for="date">Expense Date</label>
+                <input type="date" id="date" class="form-control" name="date" />
               </div>
               <div class="col-md-4">
-                <label class="form-label" for="expense_type_id">Expense Category</label>
-                <select name="expense_type_id" id="expense_type_id" class="form-control">
+                <label class="form-label" for="tran_cat_id">Expense Category</label>
+                <select name="tran_cat_id" id="tran_cat_id" class="form-control">
                   <option value="">Select</option>
                   @foreach ($types as $type)
                   <option value="{{$type->id}}">{{$type->name}}</option>
@@ -35,7 +35,7 @@
                 </select>
               </div>
               <div class="col-md-4">
-                <label class="form-label" for="transaction_method_id">Expense Method</label>
+                <label class="form-label" for="transaction_method_id">Transaction Method</label>
                 <div class="input-group input-group-merge">
                   <select name="transaction_method_id" id="transaction_method_id" class="form-control">
                   <option value="">Select</option>
@@ -61,8 +61,8 @@
               </select>
             </div>
             <div class="col-md-6">
-              <label class="form-label" for="expense_description">Expense Description</label>
-              <input type="text" id="expense_description" class="form-control" name="expense_description" />
+              <label class="form-label" for="description">Expense Description</label>
+              <input type="text" id="description" class="form-control" name="description" />
             </div>
           </div>
 
@@ -95,14 +95,14 @@
                     <td></td>
                     <td></td>
                     <td>Discount</td>
-                    <td><input type="number" id="discount" name="discount" class="form-control"></td>
+                    <td><input type="number" id="discount" name="discount" value="0" class="form-control"></td>
                   </tr>
                   <tr>
                     <td></td>
                     <td></td>
                     <td></td>
                     <td>Vat</td>
-                    <td><input type="number" id="vat" name="vat" class="form-control"></td>
+                    <td><input type="number" id="vat" name="vat" value="0" class="form-control"></td>
                   </tr>
                   <tr>
                     <td></td>
@@ -258,10 +258,10 @@
               var discount = $("#discount").val();
               var vat = $("#vat").val();
               var net_amount = $("#net_amount").val();
-              var expense_type_id = $("#expense_type_id").val();
+              var tran_cat_id = $("#tran_cat_id").val();
               var transaction_method_id = $("#transaction_method_id").val();
-              var expense_date = $("#expense_date").val();
-              var expense_description = $("#expense_description").val();
+              var date = $("#date").val();
+              var description = $("#description").val();
               var invoice_type = "Expense";
               var voucher_type = "Expense";
               
@@ -281,7 +281,7 @@
                 $.ajax({
                     url: url,
                     method: "POST",
-                    data: {total_amount,discount,vat,net_amount,expense_type_id,transaction_method_id,expense_date,expense_description,chart_of_account_id,comment,ref,amount,invoice_type,voucher_type},
+                    data: {total_amount,discount,vat,net_amount,tran_cat_id,transaction_method_id,date,description,chart_of_account_id,comment,ref,amount,invoice_type,voucher_type},
 
                     success: function (d) {
                         if (d.status == 303) {
@@ -301,80 +301,8 @@
                 });
           }
           //create  end
-          //Update
-          if($(this).val() == 'Update'){
-
-              var form_data = new FormData();
-              form_data.append("expense_name", $("#expense_name").val());
-              form_data.append("expense_amount", $("#expense_amount").val());
-              form_data.append("expense_type_id", $("#expense_type_id").val());
-              form_data.append("transaction_method_id", $("#transaction_method_id").val());
-              form_data.append("expense_date", $("#expense_date").val());
-              form_data.append("expense_description", $("#expense_description").val());
-              form_data.append("codeid", $("#codeid").val());
-              $.ajax({
-                  url:upurl,
-                  type: "POST",
-                  dataType: 'json',
-                  contentType: false,
-                  processData: false,
-                  data:form_data,
-                  success: function(d){
-                      console.log(d);
-                      if (d.status == 303) {
-                          $(".ermsg").html(d.message);
-                          pagetop();
-                      }else if(d.status == 300){
-                          $(".ermsg").html(d.message);
-                          window.setTimeout(function(){location.reload()},2000)
-                      }
-                  },
-                  error:function(d){
-                      console.log(d);
-                  }
-              });
-          }
-          //Update
       });
-      //Edit
-      $("#contentContainer").on('click','#EditBtn', function(){
-          //alert("btn work");
-          codeid = $(this).attr('rid');
-          //console.log($codeid);
-          info_url = url + '/'+codeid+'/edit';
-          //console.log($info_url);
-          $.get(info_url,{},function(d){
-              populateForm(d);
-              pagetop();
-          });
-      });
-      //Edit  end
-
       
-      //Delete
-      $("#contentContainer").on('click','#deleteBtn', function(){
-            if(!confirm('Sure?')) return;
-            codeid = $(this).attr('rid');
-            info_url = url + '/'+codeid;
-            $.ajax({
-                url:info_url,
-                method: "GET",
-                type: "DELETE",
-                data:{
-                },
-                success: function(d){
-                    if(d.success) {
-                        alert(d.message);
-                        location.reload();
-                    }
-                },
-                error:function(d){
-                    console.log(d);
-                }
-            });
-        });
-        //Delete
-
 
       
       function clearform(){

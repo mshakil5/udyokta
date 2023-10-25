@@ -18,10 +18,15 @@ class InvoiceController extends Controller
         
         // new code
         $order = new Invoice();
-        $order->date = $request->expense_date;
-        $order->description = $request->expense_description;
+        $order->date = $request->date;
+        $order->description = $request->description;
         $order->transaction_method_id = $request->transaction_method_id;
-        $order->expense_type_id = $request->expense_type_id;
+        if ($request->invoice_type == "Income") {
+            $order->income_type_id = $request->tran_cat_id;
+        } else {
+            $order->expense_type_id = $request->tran_cat_id;
+        }
+        
         $order->net_amount = $request->net_amount;
         $order->total_amount = $request->total_amount;
         $order->discount = $request->discount;

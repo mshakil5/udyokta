@@ -12,60 +12,114 @@
     
 
     <div class="card mb-4" id="addThisFormContainer">
-        <h5 class="card-header">Add new income</h5>
+        <h5 class="card-header">Add new Income</h5>
         <div class="row">
           <div class="ermsg"></div>
         </div>
         <form class="card-body" id="createThisForm">
             @csrf
-          <div class="row g-3">
-            <div class="col-md-6">
-              <label class="form-label" for="income_name">Income name</label>
-              <input type="text" id="income_name" class="form-control" name="income_name" />
-              <input type="hidden" id="codeid" class="form-control" name="codeid" />
-            </div>
-            <div class="col-md-6">
-              <label class="form-label" for="income_amount">Income amount</label>
-              <div class="input-group input-group-merge">
-                <input type="number" step="any" id="income_amount" name="income_amount" class="form-control" />
+
+            <div class="row g-3">
+              <div class="col-md-4">
+                <label class="form-label" for="date">Date</label>
+                <input type="date" id="date" class="form-control" name="date" />
+              </div>
+              <div class="col-md-4">
+                <label class="form-label" for="tran_cat_id">Category</label>
+                <select name="tran_cat_id" id="tran_cat_id" class="form-control">
+                  <option value="">Select</option>
+                  @foreach ($types as $type)
+                  <option value="{{$type->id}}">{{$type->name}}</option>
+                  @endforeach
+                </select>
+              </div>
+              <div class="col-md-4">
+                <label class="form-label" for="transaction_method_id">Transaction Method</label>
+                <div class="input-group input-group-merge">
+                  <select name="transaction_method_id" id="transaction_method_id" class="form-control">
+                  <option value="">Select</option>
+                  @foreach ($methods as $method)
+                  <option value="{{$method->id}}">{{$method->name}}</option>
+                  @endforeach
+                </select>
+                </div>
               </div>
             </div>
-          </div>
+
+
+
 
           <div class="row g-3">
             <div class="col-md-6">
-              <label class="form-label" for="income_type_id">Income Category</label>
-              <select name="income_type_id" id="income_type_id" class="form-control">
+              <label class="form-label" for="tranHead">Income name</label>
+              <select name="tranHead" id="tranHead" class="form-control">
                 <option value="">Select</option>
-                @foreach ($types as $type)
-                <option value="{{$type->id}}">{{$type->name}}</option>
+                @foreach ($coa as $cao)
+                <option value="{{$cao->id}}">{{$cao->account_name}}</option>
                 @endforeach
               </select>
             </div>
             <div class="col-md-6">
-              <label class="form-label" for="transaction_method_id">Income Method</label>
-              <div class="input-group input-group-merge"><select name="transaction_method_id" id="transaction_method_id" class="form-control">
-                <option value="">Select</option>
-                @foreach ($methods as $method)
-                <option value="{{$method->id}}">{{$method->name}}</option>
-                @endforeach
-              </select>
-              </div>
+              <label class="form-label" for="description">Description</label>
+              <input type="text" id="description" class="form-control" name="description" />
             </div>
           </div>
 
-          <div class="row g-3">
-            <div class="col-md-6">
-              <label class="form-label" for="income_date">Income Date</label>
-              <input type="date" id="income_date" class="form-control" name="income_date" />
-            </div>
-          </div>
           <div class="row g-3">
             <div class="col-md-12">
-              <label class="form-label" for="income_description">Income Description</label>
-              <input type="text" id="income_description" class="form-control" name="income_description" />
+
+              <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th>Account Name</th>
+                    <th>Ledger Comment</th>
+                    <th>Ref</th>
+                    <th>Amount</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody id="inner">
+                  
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>Total</td>
+                    <td><input type="number" id="total_amount" name="total_amount" class="form-control" readonly></td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>Discount</td>
+                    <td><input type="number" id="discount" name="discount" value="0" class="form-control"></td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>Vat</td>
+                    <td><input type="number" id="vat" name="vat" value="0" class="form-control"></td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>Net Amount</td>
+                    <td><input type="number" id="net_amount" name="net_amount" class="form-control"></td>
+                  </tr>
+                </tfoot>
+              </table>
+              
+
+
             </div>
           </div>
+
+          
+
           <div class="pt-4">
             <button type="button" id="addBtn" class="btn btn-primary me-sm-3 me-1">Submit</button>
             <button type="button" id="FormCloseBtn" class="btn btn-label-secondary">Cancel</button>
@@ -79,7 +133,7 @@
 
           <div class="card">
             <div class="card-header">
-              <h3 class="card-title">All income</h3>
+              <h3 class="card-title">All Income</h3>
             </div>
             <!-- /.card-header -->
             <div class="card-body">
@@ -88,9 +142,10 @@
                     <tr>
                         <th>Sl</th>
                         <th>Date</th>
-                        <th>Name</th>
+                        <th>Description</th>
                         <th>Amount</th>
                         <th>Bank Name</th>
+                        <th>Invoice</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -98,10 +153,13 @@
                   @foreach ($data as $key => $data)
                     <tr>
                       <td style="text-align: center">{{ $key + 1 }}</td>
-                      <td style="text-align: center">{{$data->income_date}}</td>
-                      <td style="text-align: center">{{$data->income_name}}</td>
-                      <td style="text-align: center">{{$data->income_amount}}</td>
+                      <td style="text-align: center">{{$data->date}}</td>
+                      <td style="text-align: center">{{$data->description}}</td>
+                      <td style="text-align: center">{{$data->net_amount}}</td>
                       <td style="text-align: center">{{\App\Models\TransactionMethod::where('id', $data->transaction_method_id)->first()->name }}</td>
+                      <td style="text-align: center">
+                      <a href="{{route('invoice.show', $data->id)}}" class="btn btn-primary me-sm-3 me-1">Invoice</a>
+                      </td>
                       
                       <td style="text-align: center">
                         <a id="EditBtn" rid="{{$data->id}}"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -164,6 +222,15 @@
   </script>
 
 <script>
+
+          
+
+
+      function removeRow(event) {
+          event.target.parentElement.parentElement.remove();
+          net_total();   
+      }
+
   $(document).ready(function () {
       $("#addThisFormContainer").hide();
       $("#newBtn").click(function(){
@@ -182,133 +249,146 @@
       //header for csrf-token is must in laravel
       $.ajaxSetup({ headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') } });
       //
-      var url = "{{URL::to('/admin/income')}}";
-      var upurl = "{{URL::to('/admin/income-update')}}";
+      var url = "{{URL::to('/admin/invoice')}}";
+      var upurl = "{{URL::to('/admin/expense-update')}}";
       // console.log(url);
       $("#addBtn").click(function(){
       //   alert("#addBtn");
           if($(this).val() == 'Create') {
 
-              var form_data = new FormData();
-              form_data.append("income_name", $("#income_name").val());
-              form_data.append("income_amount", $("#income_amount").val());
-              form_data.append("income_type_id", $("#income_type_id").val());
-              form_data.append("transaction_method_id", $("#transaction_method_id").val());
-              form_data.append("income_date", $("#income_date").val());
-              form_data.append("income_description", $("#income_description").val());
-              $.ajax({
-                url: url,
-                method: "POST",
-                contentType: false,
-                processData: false,
-                data:form_data,
-                success: function (d) {
-                    if (d.status == 303) {
-                        $(".ermsg").html(d.message);
-                    }else if(d.status == 300){
-                          $(".ermsg").html(d.message);
-                          pagetop();
-                          window.setTimeout(function(){location.reload()},2000)
-                    }
-                },
-                error: function (d) {
-                    console.log(d);
-                }
-            });
-          }
-          //create  end
-          //Update
-          if($(this).val() == 'Update'){
+              var total_amount = $("#total_amount").val();
+              var discount = $("#discount").val();
+              var vat = $("#vat").val();
+              var net_amount = $("#net_amount").val();
+              var tran_cat_id = $("#tran_cat_id").val();
+              var transaction_method_id = $("#transaction_method_id").val();
+              var date = $("#date").val();
+              var description = $("#description").val();
+              var invoice_type = "Income";
+              var voucher_type = "Income";
+              
+              var chart_of_account_id = $("input[name='chart_of_account_id[]']")
+                .map(function(){return $(this).val();}).get();
 
-              var form_data = new FormData();
-              form_data.append("income_name", $("#income_name").val());
-              form_data.append("income_amount", $("#income_amount").val());
-              form_data.append("income_type_id", $("#income_type_id").val());
-              form_data.append("transaction_method_id", $("#transaction_method_id").val());
-              form_data.append("income_date", $("#income_date").val());
-              form_data.append("income_description", $("#income_description").val());
-              form_data.append("codeid", $("#codeid").val());
-              $.ajax({
-                  url:upurl,
-                  type: "POST",
-                  dataType: 'json',
-                  contentType: false,
-                  processData: false,
-                  data:form_data,
-                  success: function(d){
-                      console.log(d);
-                      if (d.status == 303) {
-                          $(".ermsg").html(d.message);
-                          pagetop();
-                      }else if(d.status == 300){
-                          $(".ermsg").html(d.message);
-                          window.setTimeout(function(){location.reload()},2000)
-                      }
-                  },
-                  error:function(d){
-                      console.log(d);
-                  }
-              });
-          }
-          //Update
-      });
-      //Edit
-      $("#contentContainer").on('click','#EditBtn', function(){
-          //alert("btn work");
-          codeid = $(this).attr('rid');
-          //console.log($codeid);
-          info_url = url + '/'+codeid+'/edit';
-          //console.log($info_url);
-          $.get(info_url,{},function(d){
-              populateForm(d);
-              pagetop();
-          });
-      });
-      //Edit  end
+              var comment = $("input[name='comment[]']")
+                .map(function(){return $(this).val();}).get();
 
-      
-      //Delete
-      $("#contentContainer").on('click','#deleteBtn', function(){
-                if(!confirm('Sure?')) return;
-                codeid = $(this).attr('rid');
-                info_url = url + '/'+codeid;
+              var ref = $("input[name='ref[]']")
+                .map(function(){return $(this).val();}).get();
+
+              var amount = $("input[name='amount[]']")
+                .map(function(){return $(this).val();}).get();
+
+
                 $.ajax({
-                    url:info_url,
-                    method: "GET",
-                    type: "DELETE",
-                    data:{
-                    },
-                    success: function(d){
-                        if(d.success) {
-                            alert(d.message);
-                            location.reload();
+                    url: url,
+                    method: "POST",
+                    data: {total_amount,discount,vat,net_amount,tran_cat_id,transaction_method_id,date,description,chart_of_account_id,comment,ref,amount,invoice_type,voucher_type},
+
+                    success: function (d) {
+                        if (d.status == 303) {
+                            console.log(d);
+                            $(".ermsg").html(d.message);
+                            pagetop();
+                        }else if(d.status == 300){
+                            console.log(d);
+                            $(".ermsg").html(d.message);
+                            pagetop();
+                            window.setTimeout(function(){location.reload()},2000)
                         }
                     },
-                    error:function(d){
+                    error: function (d) {
                         console.log(d);
                     }
                 });
-            });
-            //Delete
+          }
+          //create  end
+      });
 
-
-      function populateForm(data){
-          $("#income_name").val(data.income_name);
-          $("#income_amount").val(data.income_amount);
-          $("#income_type_id").val(data.income_type_id);
-          $("#transaction_method_id").val(data.transaction_method_id);
-          $("#income_date").val(data.income_date);
-          $("#income_description").val(data.income_description);
-          $("#codeid").val(data.id);
-          $("#addBtn").val('Update');
-          $("#addThisFormContainer").show(300);
-          $("#newBtn").hide(100);
-          $("#newBtnSection").hide(100);
-      }
+      
+      
       function clearform(){
           $('#createThisForm')[0].reset();
           $("#addBtn").val('Create');
       }
+
+
+
+
+      var urlbr = "{{URL::to('/admin/getchartofaccount')}}";
+            $("#tranHead").change(function(){
+		            event.preventDefault();
+                    var accname = $(this).val();
+
+                    var chart_of_account_id = $("input[name='chart_of_account_id[]']")
+                             .map(function(){return $(this).val();}).get();
+
+                        chart_of_account_id.push(accname);
+                        seen = chart_of_account_id.filter((s => v => s.has(v) || !s.add(v))(new Set));
+
+                        if (Array.isArray(seen) && seen.length) {
+                            return;
+                        }
+                        
+                    $.ajax({
+                    url: urlbr,
+                    method: "POST",
+                    data: {accname:accname},
+
+                    success: function (d) {
+                      
+                        if (d.status == 303) {
+
+                        }else if(d.status == 300){
+                               
+                            var markup = '<tr><td><input type="text" id="accheadname" name="accheadname[]" class="form-control" value="'+d.accheadname+'"><input type="hidden" id="chart_of_account_id" name="chart_of_account_id[]" class="form-control" value="'+d.chart_of_account_id+'"></td><td><input type="text" id="comment" name="comment[]" class="form-control"></td><td><input type="text" id="ref" name="ref[]" class="form-control"></td><td><input type="number" step="any" id="amount" name="amount[]" class="form-control total"></td><td><div style="color: white;  user-select:none;  padding: 2px;    background: red;    width: 25px;    display: flex;    align-items: center; margin-right:5px;   justify-content: center;    border-radius: 4px;   left: 4px;    top: 81px;" onclick="removeRow(event)" >X</div></td></tr>';
+
+                            $("table #inner ").append(markup);
+                            net_total();
+                        }
+                    },
+                    error: function (d) {
+                        console.log(d);
+                    }
+                });
+
+            });
+
+            // change quantity start  
+        $("body").delegate(".total,#discount,#vat","keyup",function(event){
+            event.preventDefault();
+            var row = $(this).parent().parent();
+            var amount = row.find('.total').val();
+            var total_amount=0;
+            $('.total').each(function(){
+              total_amount += ($(this).val()-0);
+            })
+            
+            var discount = $("#discount").val();
+            var vat = parseFloat($("#vat").val());
+            
+            var netamount = total_amount + vat - discount;
+            console.log(vat);
+            $('#total_amount').val(total_amount.toFixed(0));
+            $('#net_amount').val(netamount.toFixed(0)); 
+            net_total();          
+        });
+        //Change Quantity end here  
+
+
+        function net_total(){
+              var discount = $("#discount").val();
+              var vat = parseInt($("#vat").val());
+              var total_amount=0;
+              $('.total').each(function(){
+                total_amount += ($(this).val()-0);
+              })
+
+              var netamount = total_amount + vat - discount;
+              $('#total_amount').val(total_amount.toFixed(0));
+              $('#net_amount').val(netamount.toFixed(0));
+          }
+
       
   });
 

@@ -6,17 +6,20 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\TransactionMethod;
 use App\Models\IncomeType;
+use App\Models\ChartOfAccount;
 use App\Models\Income;
+use App\Models\Invoice;
 use Illuminate\support\Facades\Auth;
 
 class IncomeController extends Controller
 {
     public function index()
     {
-        $data = Income::orderby('id','DESC')->get();
+        $data = Invoice::whereNotNull('income_type_id')->orderby('id','DESC')->get();
         $types = IncomeType::orderby('id','DESC')->get();
         $methods = TransactionMethod::orderby('id','DESC')->get();
-        return view('admin.income.index', compact('data','methods','types'));
+        $coa = ChartOfAccount::where('account_head','Income')->orderby('id','DESC')->get();
+        return view('admin.income.index', compact('data','methods','types','coa'));
     }
 
     public function store(Request $request)
