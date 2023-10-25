@@ -9,6 +9,7 @@ use App\Models\TransactionMethod;
 use App\Models\ChartOfAccount;
 use App\Models\Invoice;
 use App\Models\InvoiceDetail;
+use App\Models\Transaction;
 use Illuminate\support\Facades\Auth;
 
 class InvoiceController extends Controller
@@ -45,6 +46,24 @@ class InvoiceController extends Controller
                 $orderDtl->amount = $request->get('amount')[$key];
                 $orderDtl->created_by = Auth::user()->id;
                 $orderDtl->save();
+
+                $data = new Transaction();
+                $data->invoice_id = $order->id;
+                
+                if ($request->invoice_type == "Income") {
+                    $data->tran_type = "Income";
+                } else {
+                    $data->tran_type =  "Expense";
+                }
+                
+                $data->transaction_method_id = $request->transaction_method_id;
+                $data->chart_of_account_id = $request->get('chart_of_account_id')[$key];
+                $data->comment = $request->get('comment')[$key];
+                $data->ref = $request->get('ref')[$key];
+                $data->amount = $request->get('amount')[$key];
+                $data->created_by = Auth::user()->id;
+                $data->save();
+                
             }
             
             $message ="<div class='alert alert-success'><a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a><b>Invoice create successfully.</b></div>";
