@@ -77,4 +77,10 @@ class InvoiceController extends Controller
         $data = Invoice::with('invoicedetail')->where('id', $id)->first();
         return view('admin.invoice.index', compact('data'));
     }
+    public function showVoucher($id)
+    {
+        $data = Invoice::with('invoicedetail')->where('id', $id)->first();
+        // dd($data);
+        return view('admin.vouchers.index', compact('data'));
+    }
 }

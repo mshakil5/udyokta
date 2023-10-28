@@ -92,6 +92,7 @@ Route::group(['prefix' =>'admin/', 'middleware' => ['auth', 'is_admin']], functi
     Route::post('/invoice', [InvoiceController::class, 'store']);
     Route::get('/invoice/{id}', [InvoiceController::class, 'delete']);
     Route::get('/invoice-view/{id}', [InvoiceController::class, 'showInvoice'])->name('invoice.show');
+    Route::get('/voucher-view/{id}', [InvoiceController::class, 'showVoucher'])->name('voucher.show');
 
 });
   
